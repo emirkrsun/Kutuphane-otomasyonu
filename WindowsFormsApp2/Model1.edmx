@@ -1,0 +1,224 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="Nakemu_Kütüphanesi.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="kitaplar1">
+          <Key>
+            <PropertyRef Name="KitapID" />
+          </Key>
+          <Property Name="KitapID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="KitapAdi" Type="nvarchar" MaxLength="200" />
+          <Property Name="Yazar" Type="nvarchar" MaxLength="100" />
+          <Property Name="SayfaSayisi" Type="int" />
+          <Property Name="resim" Type="varbinary(max)" />
+        </EntityType>
+        <EntityType Name="Kullanıcı">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="İsim" Type="nvarchar" MaxLength="50" />
+          <Property Name="Soyisim" Type="nvarchar" MaxLength="50" />
+          <Property Name="Telefon" Type="nvarchar" MaxLength="11" />
+          <Property Name="email" Type="nvarchar" MaxLength="50" />
+          <Property Name="nickname" Type="nvarchar" MaxLength="50" />
+          <Property Name="şifre" Type="nvarchar" MaxLength="50" />
+          <Property Name="cinsiyet" Type="varchar" MaxLength="10" />
+        </EntityType>
+        <EntityType Name="odunc">
+          <Key>
+            <PropertyRef Name="IslemID" />
+          </Key>
+          <Property Name="IslemID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="KullaniciID" Type="int" />
+          <Property Name="KitapID" Type="int" />
+          <Property Name="AlisTarihi" Type="datetime" />
+          <Property Name="IadeTarihi" Type="datetime" />
+          <Property Name="Durum" Type="nvarchar" MaxLength="50" />
+        </EntityType>
+        <Association Name="FK_odunc_kitaplar1">
+          <End Role="kitaplar1" Type="Self.kitaplar1" Multiplicity="0..1" />
+          <End Role="odunc" Type="Self.odunc" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="kitaplar1">
+              <PropertyRef Name="KitapID" />
+            </Principal>
+            <Dependent Role="odunc">
+              <PropertyRef Name="KitapID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_odunc_Kullanıcı">
+          <End Role="Kullanıcı" Type="Self.Kullanıcı" Multiplicity="0..1" />
+          <End Role="odunc" Type="Self.odunc" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Kullanıcı">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="odunc">
+              <PropertyRef Name="KullaniciID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="Nakemu_KütüphanesiStoreContainer">
+          <EntitySet Name="kitaplar1" EntityType="Self.kitaplar1" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Kullanıcı" EntityType="Self.Kullanıcı" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="odunc" EntityType="Self.odunc" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_odunc_kitaplar1" Association="Self.FK_odunc_kitaplar1">
+            <End Role="kitaplar1" EntitySet="kitaplar1" />
+            <End Role="odunc" EntitySet="odunc" />
+          </AssociationSet>
+          <AssociationSet Name="FK_odunc_Kullanıcı" Association="Self.FK_odunc_Kullanıcı">
+            <End Role="Kullanıcı" EntitySet="Kullanıcı" />
+            <End Role="odunc" EntitySet="odunc" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="Nakemu_Kütüphanesi" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="Kullanıcı">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="İsim" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Soyisim" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Telefon" Type="String" MaxLength="11" FixedLength="false" Unicode="true" />
+          <Property Name="email" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="nickname" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="şifre" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="odunc" Relationship="Nakemu_Kütüphanesi.FK_odunc_Kullanıcı" FromRole="Kullanıcı" ToRole="odunc" />
+          <Property Name="cinsiyet" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <EntityContainer Name="Nakemu_KütüphanesiEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Kullanıcı" EntityType="Self.Kullanıcı" />
+          <EntitySet Name="kitaplar1" EntityType="Nakemu_Kütüphanesi.kitaplar1" />
+          <EntitySet Name="odunc" EntityType="Nakemu_Kütüphanesi.odunc" />
+          <AssociationSet Name="FK_odunc_kitaplar1" Association="Nakemu_Kütüphanesi.FK_odunc_kitaplar1">
+            <End Role="kitaplar1" EntitySet="kitaplar1" />
+            <End Role="odunc" EntitySet="odunc" />
+          </AssociationSet>
+          <AssociationSet Name="FK_odunc_Kullanıcı" Association="Nakemu_Kütüphanesi.FK_odunc_Kullanıcı">
+            <End Role="Kullanıcı" EntitySet="Kullanıcı" />
+            <End Role="odunc" EntitySet="odunc" />
+          </AssociationSet>
+        </EntityContainer>
+        <EntityType Name="kitaplar1">
+          <Key>
+            <PropertyRef Name="KitapID" />
+          </Key>
+          <Property Name="KitapID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="KitapAdi" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+          <Property Name="Yazar" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="SayfaSayisi" Type="Int32" />
+          <Property Name="resim" Type="Binary" />
+          <NavigationProperty Name="odunc" Relationship="Nakemu_Kütüphanesi.FK_odunc_kitaplar1" FromRole="kitaplar1" ToRole="odunc" />
+        </EntityType>
+        <EntityType Name="odunc">
+          <Key>
+            <PropertyRef Name="IslemID" />
+          </Key>
+          <Property Name="IslemID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="KullaniciID" Type="Int32" />
+          <Property Name="KitapID" Type="Int32" />
+          <Property Name="AlisTarihi" Type="DateTime" Precision="3" />
+          <Property Name="IadeTarihi" Type="DateTime" Precision="3" />
+          <Property Name="Durum" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="kitaplar1" Relationship="Nakemu_Kütüphanesi.FK_odunc_kitaplar1" FromRole="odunc" ToRole="kitaplar1" />
+          <NavigationProperty Name="Kullanıcı" Relationship="Nakemu_Kütüphanesi.FK_odunc_Kullanıcı" FromRole="odunc" ToRole="Kullanıcı" />
+        </EntityType>
+        <Association Name="FK_odunc_kitaplar1">
+          <End Type="Nakemu_Kütüphanesi.kitaplar1" Role="kitaplar1" Multiplicity="0..1" />
+          <End Type="Nakemu_Kütüphanesi.odunc" Role="odunc" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="kitaplar1">
+              <PropertyRef Name="KitapID" />
+            </Principal>
+            <Dependent Role="odunc">
+              <PropertyRef Name="KitapID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_odunc_Kullanıcı">
+          <End Type="Nakemu_Kütüphanesi.Kullanıcı" Role="Kullanıcı" Multiplicity="0..1" />
+          <End Type="Nakemu_Kütüphanesi.odunc" Role="odunc" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Kullanıcı">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="odunc">
+              <PropertyRef Name="KullaniciID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="Nakemu_KütüphanesiStoreContainer" CdmEntityContainer="Nakemu_KütüphanesiEntities">
+          <EntitySetMapping Name="Kullanıcı">
+            <EntityTypeMapping TypeName="Nakemu_Kütüphanesi.Kullanıcı">
+              <MappingFragment StoreEntitySet="Kullanıcı">
+                <ScalarProperty Name="cinsiyet" ColumnName="cinsiyet" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="İsim" ColumnName="İsim" />
+                <ScalarProperty Name="Soyisim" ColumnName="Soyisim" />
+                <ScalarProperty Name="Telefon" ColumnName="Telefon" />
+                <ScalarProperty Name="email" ColumnName="email" />
+                <ScalarProperty Name="nickname" ColumnName="nickname" />
+                <ScalarProperty Name="şifre" ColumnName="şifre" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="kitaplar1">
+            <EntityTypeMapping TypeName="Nakemu_Kütüphanesi.kitaplar1">
+              <MappingFragment StoreEntitySet="kitaplar1">
+                <ScalarProperty Name="resim" ColumnName="resim" />
+                <ScalarProperty Name="SayfaSayisi" ColumnName="SayfaSayisi" />
+                <ScalarProperty Name="Yazar" ColumnName="Yazar" />
+                <ScalarProperty Name="KitapAdi" ColumnName="KitapAdi" />
+                <ScalarProperty Name="KitapID" ColumnName="KitapID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="odunc">
+            <EntityTypeMapping TypeName="Nakemu_Kütüphanesi.odunc">
+              <MappingFragment StoreEntitySet="odunc">
+                <ScalarProperty Name="Durum" ColumnName="Durum" />
+                <ScalarProperty Name="IadeTarihi" ColumnName="IadeTarihi" />
+                <ScalarProperty Name="AlisTarihi" ColumnName="AlisTarihi" />
+                <ScalarProperty Name="KitapID" ColumnName="KitapID" />
+                <ScalarProperty Name="KullaniciID" ColumnName="KullaniciID" />
+                <ScalarProperty Name="IslemID" ColumnName="IslemID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="false" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

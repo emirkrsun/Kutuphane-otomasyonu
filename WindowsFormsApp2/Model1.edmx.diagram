@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="efad6b92d4de44d0b0902ef46b5ced5f" Name="Diagram1">
+        <EntityTypeShape EntityType="Nakemu_Kütüphanesi.Kullanıcı" Width="1.5" PointX="1.125" PointY="1.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="Nakemu_Kütüphanesi.kitaplar1" Width="1.5" PointX="7.375" PointY="1.75" />
+        <EntityTypeShape EntityType="Nakemu_Kütüphanesi.odunc" Width="1.5" PointX="4.25" PointY="1.875" />
+        <AssociationConnector Association="Nakemu_Kütüphanesi.FK_odunc_kitaplar1" />
+        <AssociationConnector Association="Nakemu_Kütüphanesi.FK_odunc_Kullanıcı" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>
